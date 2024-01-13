@@ -3,3 +3,7 @@
     border-radius: 5%;
     
 }
+
+input.ng-touched.ng-invalid{
+    border:red 1px solid;
+}

@@ -3,35 +3,35 @@
     <p class="fw-bold text-center"> Registration </p>
 </div>
 </div>
-<form class="mt-3 ms-3 ps-2">
+<form class="mt-3 ms-3 ps-2" [formGroup]="regForm" (ngSubmit)="onRegister()">
     <div class="row">
         <div class="col-md-5 fworm">
     <div class="row">
     <div class="col-md-5">
         <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName">
+        <input type="text" class="form-control" id="firstName" formControlName="firstname">
       </div>
       <div class="col-md-5">
         <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName">
+        <input type="text" class="form-control" id="lastName" formControlName="lastname">
       </div>
     </div>
     <div class="row">
     <div class="col-md-10">
       <label for="inputEmail4" class="form-label">Email</label>
-      <input type="email" class="form-control" id="inputEmail4">
+      <input type="email" class="form-control" id="inputEmail4" formControlName="email">
     </div>
 </div>
 <div class="row">
     <div class="col-md-10">
       <label for="userName" class="form-label">Username</label>
-      <input type="email" class="form-control" id="userName">
+      <input type="email" class="form-control" id="userName" formControlName="username">
     </div>
 </div>
 <div class="row">
     <div class="col-md-10">
       <label for="inputPassword4" class="form-label">Password</label>
-      <input type="password" class="form-control" id="inputPassword4">
+      <input type="password" class="form-control" id="inputPassword4" formControlName="password">
     </div>
 </div>
 <div class="row">
@@ -43,21 +43,21 @@
 <div class="row">
     <div class="col-md-10">
       <label for="inputDate" class="form-label">Date of Birth</label>
-      <input type="date" class="form-control" id="inputDate">
+      <input type="date" class="form-control" id="inputDate" formControlName="dob">
     </div>
 </div>
     <div class="col-md-10">
       <label for="inputAddress" class="form-label">Address</label>
-      <input type="text" class="form-control" id="inputAddress">
+      <input type="text" class="form-control" id="inputAddress" formControlName="address">
     </div>
 
     <div class="col-md-10">
       <label for="inputCity" class="form-label">City</label>
-      <input type="text" class="form-control" id="inputCity">
+      <input type="text" class="form-control" id="inputCity" formControlName="city">
     </div>
 
     <div class="col-12 mt-2">
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!regForm.valid">Register</button>
     </div>
     </div>
     </div>
