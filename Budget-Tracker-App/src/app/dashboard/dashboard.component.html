@@ -34,3 +34,126 @@
       </div>
     </div>
   </nav>
+
+  <div class="summary mt-3 pt-2">
+    <div class="row">
+      <div class="col-md">
+        Total Income
+      </div>
+      <div class="col-md">
+        Total Expense
+      </div>
+      <div class="col-md">
+        Balance
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!view_form">
+
+  <div class="search-field mt-5 pt-3">
+      <input type="text" id="search" placeholder="Search...">  
+      <button type="submit">Search</button>
+  </div>
+
+  <div class="row filters">
+    <div class="col-md-2 mt-2 pt-3 first-filter">
+    <button class="dropbtn1">Date Range</button>
+    <div class="dropdown-content1">
+      <a href="#">Past week</a>
+      <a href="#">Past month</a>
+      <a href="#">Past 3 months</a>
+      <a href="#">All</a>
+    </div>
+  </div>
+  <div class="col-md-2 mt-2 pt-3 second-filter">
+    <button class="dropbtn2 ms-5">Type</button>
+    <div class="dropdown-content2">
+      <a href="#">Income</a>
+      <a href="#">Expense</a>
+      <a href="#">All</a>
+    </div>
+  </div>
+  <div class="col-md-2 mt-2 pt-3 third-filter">
+    <button class="dropbtn3 ms-5">Reoccuring</button>
+    <div class="dropdown-content3">
+      <a href="#">One time</a>
+      <a href="#">Weekly</a>
+      <a href="#">Monthly</a>
+      <a href="#">Yearly</a>
+      <a href="#">All</a>
+    </div>
+  </div>
+  </div>
+
+  <div class="records mt-3 pt-2">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Type</th>
+          <th scope="col">Reoccuring</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Some_name</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td class="col-2">@mdo</td>
+          <td><button style="border: none;">Edit</button></td>
+        </tr>
+        </tbody>
+        </table>
+  </div>
+
+  <div class="mt-2 pt-2" style="padding-left: 39.5vw;">
+    <button class="add-btn" (click)="onAddClick()">Add</button>
+  </div>
+
+</div>
+
+<div *ngIf="view_form">
+   
+  <div class="mt-4 pt-2 ms-2">
+  <button class="cancel-button" type="cancel" (click)="setview_formToFalse()">X</button>
+</div>
+  <form class="form-view mt-3">
+    
+    <label for="name" class="form-label">Name:</label> <br/>
+    <div class="col-md-3">
+    <input type="text" id="name" class="form-control"><p></p>
+  </div>
+
+    <label for="amount" class="form-label">Amount(in Rs.):</label><br/>
+    <div class="col-md-3">
+    <input type="text" id="name" class="form-control"><p></p>
+</div>
+
+    <label for="date" class="form-label">Date:</label><br/>
+    <div class="col-md-3">
+    <input type="date" id="date" class="form-control"><p></p>
+</div>
+
+    <label for="type" class="form-label">Type:</label><br/>
+    <div class="col-md-3">
+    <select name="type" id="type" class="form-control">
+      <option value="income">Income</option>
+      <option value="expense">Expense</option>
+    </select><p></p>
+</div>
+
+    <label for="reoccuring" class="form-label">Reoccuring:</label><br/>
+    <div class="col-md-3">
+    <select name="reoccuring" id="reoccuring" class="form-control">
+      <option value="one-time">One Time</option>
+      <option value="weekly">Weekly</option>
+      <option value="monthly">Monthly</option>
+      <option value="expense">Yearly</option>
+    </select><p></p>
+</div>
+    <button class="submit-form" type="submit">Submit</button>
+  </form>
+  
+</div>
