@@ -38,13 +38,13 @@
   <div class="summary mt-3 pt-2">
     <div class="row">
       <div class="col-md">
-        Total Income
+        Total Income<br> {{totalIncome}}
       </div>
       <div class="col-md">
-        Total Expense
+        Total Expense <br>{{totalExpense}}
       </div>
       <div class="col-md">
-        Balance
+        Balance <br>  {{totalIncome-totalExpense}}
       </div>
     </div>
   </div>
@@ -91,18 +91,21 @@
       <thead>
         <tr>
           <th scope="col">Name</th>
+          <th scope="col">Amount</th>
           <th scope="col">Date</th>
           <th scope="col">Type</th>
           <th scope="col">Reoccuring</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Some_name</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td class="col-2">@mdo</td>
+        <tr *ngFor="let data of allData.reverse(); index as i">
+          <td>{{data.description}}</td>
+          <td>{{data.amount}}</td>
+          <td>{{data.date}}</td>
+          <td>{{data.type}}</td>
+          <td class="col-2">{{data.reoccuring}}</td>
           <td><button style="border: none;">Edit</button></td>
+          <td><button style="border: none;" (click)="onDeleteButton(i)">Delete</button></td>
         </tr>
         </tbody>
         </table>
@@ -119,26 +122,26 @@
   <div class="mt-4 pt-2 ms-2">
   <button class="cancel-button" type="cancel" (click)="setview_formToFalse()">X</button>
 </div>
-  <form class="form-view mt-3">
+  <form class="form-view mt-3" [formGroup]="addForm" (ngSubmit)="onSubmit()">
     
-    <label for="name" class="form-label">Name:</label> <br/>
+    <label for="name" class="form-label">Description:</label> <br/>
     <div class="col-md-3">
-    <input type="text" id="name" class="form-control"><p></p>
+    <input type="text" id="name" class="form-control" placeholder="Eg. Salary, Internet Bill..." formControlName="description"><p></p>
   </div>
 
     <label for="amount" class="form-label">Amount(in Rs.):</label><br/>
     <div class="col-md-3">
-    <input type="text" id="name" class="form-control"><p></p>
+    <input type="number" id="name" class="form-control" placeholder="Enter Amount..." formControlName="amount"><p></p>
 </div>
 
     <label for="date" class="form-label">Date:</label><br/>
     <div class="col-md-3">
-    <input type="date" id="date" class="form-control"><p></p>
+    <input type="date" id="date" class="form-control"  formControlName="date"><p></p>
 </div>
 
     <label for="type" class="form-label">Type:</label><br/>
     <div class="col-md-3">
-    <select name="type" id="type" class="form-control">
+    <select name="type" id="type" class="form-control" formControlName="type">
       <option value="income">Income</option>
       <option value="expense">Expense</option>
     </select><p></p>
@@ -146,14 +149,14 @@
 
     <label for="reoccuring" class="form-label">Reoccuring:</label><br/>
     <div class="col-md-3">
-    <select name="reoccuring" id="reoccuring" class="form-control">
+    <select name="reoccuring" id="reoccuring" class="form-control" formControlName="reoccuring">
       <option value="one-time">One Time</option>
       <option value="weekly">Weekly</option>
       <option value="monthly">Monthly</option>
       <option value="expense">Yearly</option>
     </select><p></p>
 </div>
-    <button class="submit-form" type="submit">Submit</button>
+    <button class="submit-form" type="submit" >Submit</button>
   </form>
   
 </div>

@@ -189,3 +189,19 @@ div.search-field::after{
 .submit-form:hover{
   background-color: #0b7dda;
 }
+
+.form-view input.ng-touched.ng-invalid{
+  border: red 1px solid;
+}
+
+.form-view input.ng-touched.ng-valid{
+  border: green 1px solid;
+}
+
+.form-view select.ng-touched.ng-invalid{
+  border: red 1px solid;
+}
+
+.form-view select.ng-touched.ng-valid{
+  border: green 1px solid;
+}

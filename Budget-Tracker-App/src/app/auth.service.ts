@@ -8,7 +8,7 @@ export class AuthService {
   public username:string;
   constructor() { }
 
-  private getUserKey(username:string):string{
+   private getUserKey(username:string):string{
     return `user_${username}`;
   }
 
