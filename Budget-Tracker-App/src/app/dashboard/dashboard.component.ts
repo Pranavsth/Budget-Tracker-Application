@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Data } from '../data';
 import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
+import { FormsModule } from '@angular/forms';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
 
 @Component({
@@ -12,16 +13,28 @@ import { FormControl, FormGroup,Validators } from '@angular/forms';
 export class DashboardComponent {
 
   view_form:boolean=false;
+  edit_mode:boolean = false;
   totalIncome:number 
   totalExpense:number
   // balance:number =this.totalIncome-this.totalExpense;
   addForm: FormGroup;
+  editForm: FormGroup;
   data:Data;
+  editValue:Data;
+  editIndex:number;
   allData:Data[]=[];
   constructor(private authService:AuthService,private dataService:DataService){}
 
   ngOnInit(){
     this.addForm = new FormGroup({
+      description: new FormControl(null,Validators.required),
+      amount: new FormControl(null,Validators.required),
+      date: new FormControl(null,Validators.required),
+      type: new FormControl(null,Validators.required),
+      reoccuring: new FormControl(null,Validators.required)
+    });
+
+    this.editForm = new FormGroup({
       description: new FormControl(null,Validators.required),
       amount: new FormControl(null,Validators.required),
       date: new FormControl(null,Validators.required),
@@ -43,6 +56,9 @@ export class DashboardComponent {
     this.view_form=false;
   }
   
+  setedit_modeToFalse(){
+    this.edit_mode=false;
+  }
   onSubmit(){
     if(!this.addForm.valid){
       alert('Fill all the details');
@@ -64,6 +80,21 @@ export class DashboardComponent {
    alert('Entry success!')
    this.view_form = false;
   }
+  }
+
+  onEditButton(index:number){
+    this.edit_mode=true;
+    let i = this.allData.length-1-index;
+    this.editIndex=index;
+    this.editValue = {description:this.allData[i].description, amount:this.allData[i].amount, date:this.allData[i].date, type:this.allData[i].type, reoccuring : this.allData[i].reoccuring
+  }
+  }
+
+  onSubmitEdit(){
+    console.log(this.editIndex,this.editValue);
+    this.dataService.editData(this.editIndex,this.editValue);
+    this.edit_mode=false;
+    this.updateSummary();
   }
 
   onDeleteButton(index:number){
