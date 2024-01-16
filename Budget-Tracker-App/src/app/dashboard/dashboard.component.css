@@ -2,6 +2,12 @@
     box-sizing:border-box;
 }
 
+.editText{
+  padding-left:36.5vw;
+  font-size: large;
+  font-weight: bold;
+}
+
 .search-field{
     padding-left: 300px;
 }

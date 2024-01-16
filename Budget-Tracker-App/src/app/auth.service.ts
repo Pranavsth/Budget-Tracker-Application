@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   public username:string;
-  constructor() { }
+  constructor(private router:Router) { }
 
    private getUserKey(username:string):string{
     return `user_${username}`;
@@ -35,10 +36,9 @@ export class AuthService {
     return false;
   }
 
-  logout(username: string){
-    const userKey = this.getUserKey(username);
-    localStorage.removeItem(userKey);
-    window.location.href = '/login';
+  logout(){
+
+    this.router.navigate(['/login'])
   }
 
   isAuthenticated(username:string):boolean{

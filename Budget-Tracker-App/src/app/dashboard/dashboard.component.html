@@ -28,7 +28,7 @@
           </li>
         </ul>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/registration">Sign Up</a>
+          <button style="border: none;" (click)="logout()">Logout</button>
         </li>
         
       </div>
@@ -38,13 +38,16 @@
   <div class="summary mt-3 pt-2">
     <div class="row">
       <div class="col-md">
-        Total Income<br> {{totalIncome}}
+        Total Income<br><div *ngIf="!filter_on"> {{totalIncome}}</div>
+        <div *ngIf="filter_on">{{filter_totalIncome}}</div>
       </div>
       <div class="col-md">
-        Total Expense <br>{{totalExpense}}
+        Total Expense <br><div *ngIf="!filter_on">{{totalExpense}}</div>
+        <div *ngIf="filter_on">{{filter_totalExpense}}</div>
       </div>
       <div class="col-md">
-        Balance <br>  {{totalIncome-totalExpense}}
+        Balance <br> <div *ngIf="!filter_on">{{totalIncome-totalExpense}}</div> 
+        <div *ngIf="filter_on">{{filter_totalIncome-filter_totalExpense}}</div>
       </div>
     </div>
   </div>
@@ -60,28 +63,26 @@
     <div class="col-md-2 mt-2 pt-3 first-filter">
     <button class="dropbtn1">Date Range</button>
     <div class="dropdown-content1">
-      <a href="#">Past week</a>
-      <a href="#">Past month</a>
-      <a href="#">Past 3 months</a>
-      <a href="#">All</a>
+      <button style="border:none" (click)="filterRequestDate('sevenDays')">Last 7 days</button><br>
+      <button style="border:none" (click)="filterRequestDate('thirtyDays')">Last 30 days</button><br>
+      <button style="border:none" (click)="filterRequestDate('sixtyDays')">Last 60 days</button><br>
+      <button style="border:none" (click)="filterRequestDate('ninetyDays')">Last 90 days</button><br>
     </div>
   </div>
   <div class="col-md-2 mt-2 pt-3 second-filter">
     <button class="dropbtn2 ms-5">Type</button>
     <div class="dropdown-content2">
-      <a href="#">Income</a>
-      <a href="#">Expense</a>
-      <a href="#">All</a>
+     <button style="border:none" (click)="filterRequestType('income')">Income</button><br>
+     <button style="border:none" (click)="filterRequestType('expense')">Expense</button><br>
     </div>
   </div>
   <div class="col-md-2 mt-2 pt-3 third-filter">
     <button class="dropbtn3 ms-5">Reoccuring</button>
     <div class="dropdown-content3">
-      <a href="#">One time</a>
-      <a href="#">Weekly</a>
-      <a href="#">Monthly</a>
-      <a href="#">Yearly</a>
-      <a href="#">All</a>
+      <button style="border:none" (click)="filterRequestReoccuring('one-time')">One time</button><br>
+      <button style="border:none" (click)="filterRequestReoccuring('weekly')">Weekly</button><br>
+      <button style="border:none" (click)="filterRequestReoccuring('monthly')"> Monthly</button><br>
+      <button style="border:none" (click)="filterRequestReoccuring('yearly')">Yearly</button><br>
     </div>
   </div>
   </div>
@@ -97,7 +98,7 @@
           <th scope="col">Reoccuring</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="!filter_on">
         <tr *ngFor="let data of allData.reverse(); index as i">
           <td>{{data.description}}</td>
           <td>{{data.amount}}</td>
@@ -108,11 +109,21 @@
           <td><button style="border: none;" (click)="onDeleteButton(i)">Delete</button></td>
         </tr>
         </tbody>
+        <tbody *ngIf="filter_on">
+          <tr *ngFor="let data of filteredList.reverse(); index as i">
+            <td>{{data.description}}</td>
+            <td>{{data.amount}}</td>
+            <td>{{data.date}}</td>
+            <td>{{data.type}}</td>
+            <td class="col-2">{{data.reoccuring}}</td>
+          </tr>
+          </tbody>
         </table>
   </div>
 
   <div class="mt-2 pt-2" style="padding-left: 39.5vw;">
-    <button class="add-btn" (click)="onAddClick()">Add</button>
+    <button *ngIf="!filter_on" class="add-btn" (click)="onAddClick()">Add</button>
+    <button *ngIf="filter_on" style="border:none;" (click)="filterClose()">Reset</button>
   </div>
 
 </div>
@@ -153,7 +164,7 @@
       <option value="one-time">One Time</option>
       <option value="weekly">Weekly</option>
       <option value="monthly">Monthly</option>
-      <option value="expense">Yearly</option>
+      <option value="yearly">Yearly</option>
     </select><p></p>
 </div>
     <button class="submit-form" type="submit" >Submit</button>
@@ -165,8 +176,9 @@
 
   <div class="mt-4 pt-2 ms-2">
     <button class="cancel-button" type="cancel" (click)="setedit_modeToFalse()">X</button>
+    <span class="editText">Edit Mode</span>
   </div>
-    <form class="form-view mt-3" (ngSubmit)="onSubmitEdit()">
+    <form class="form-view mt-3 pt-2" (ngSubmit)="onSubmitEdit()">
       
       <label for="name" class="form-label">Description:</label> <br/>
       <div class="col-md-3">
