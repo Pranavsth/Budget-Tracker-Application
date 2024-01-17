@@ -9,7 +9,7 @@
 }
 
 .search-field{
-    padding-left: 300px;
+    padding-left: 380px;
 }
 div.search-field input[type="text"]{
     padding: 10px;
@@ -43,7 +43,7 @@ div.search-field::after{
 }
 
 .filters{
-  padding-left: 300px;
+  padding-left: 380px;
   padding-top: 10px;
 }
 
@@ -83,14 +83,21 @@ div.search-field::after{
   z-index: 1;
 }
 
-.dropdown-content1 a {
+.dropdown-content1 button {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content1 a:hover {background-color: #f1f1f1}
+.filter-button:hover{
+color:rgb(153, 120, 120);
+}
+
+  
+
+.dropdown-content1 button:hover {background-color: #f1f1f1;
+  color:rgb(153, 120, 120);}
 
 .first-filter:hover .dropdown-content1 {
   display: block;
@@ -109,14 +116,16 @@ div.search-field::after{
   z-index: 1;
 }
 
-.dropdown-content2 a {
+.dropdown-content2 button {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content2 a:hover {background-color: #f1f1f1}
+.dropdown-content2 button:hover {background-color: #f1f1f1;
+  color:rgb(153, 120, 120);}
+
 
 .second-filter:hover .dropdown-content2 {
   display: block;
@@ -135,14 +144,15 @@ div.search-field::after{
   z-index: 1;
 }
 
-.dropdown-content3 a {
+.dropdown-content3 button {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content3 a:hover {background-color: #f1f1f1}
+.dropdown-content3 button:hover {background-color: #f1f1f1;
+  color:rgb(153, 120, 120);}
 
 .third-filter:hover .dropdown-content3 {
   display: block;

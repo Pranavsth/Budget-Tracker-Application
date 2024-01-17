@@ -35,18 +35,26 @@
     </div>
   </nav>
 
+  
   <div class="summary mt-3 pt-2">
+    <p></p>
     <div class="row">
-      <div class="col-md">
-        Total Income<br><div *ngIf="!filter_on"> {{totalIncome}}</div>
+      <div class="col-md" style="height:15vh;background-color: rgb(133, 228, 133); text-align: center; font-weight: bold;">
+        <br>Total Income
+        <br>
+        <div *ngIf="!filter_on"> {{totalIncome}}</div>
         <div *ngIf="filter_on">{{filter_totalIncome}}</div>
       </div>
-      <div class="col-md">
-        Total Expense <br><div *ngIf="!filter_on">{{totalExpense}}</div>
+      <div class="col-md" style="height:15vh;background-color: rgb(233, 133, 133);text-align: center; font-weight: bold;">
+        <br>Total Expense 
+        <br>
+        <div *ngIf="!filter_on">{{totalExpense}}</div>
         <div *ngIf="filter_on">{{filter_totalExpense}}</div>
       </div>
-      <div class="col-md">
-        Balance <br> <div *ngIf="!filter_on">{{totalIncome-totalExpense}}</div> 
+      <div class="col-md" style="height:15vh;background-color: rgb(233, 228, 133);text-align: center; font-weight: bold;">
+       <br> 
+       Balance <br> 
+       <div *ngIf="!filter_on">{{totalIncome-totalExpense}}</div> 
         <div *ngIf="filter_on">{{filter_totalIncome-filter_totalExpense}}</div>
       </div>
     </div>
@@ -55,34 +63,34 @@
   <div *ngIf="!view_form && !edit_mode">
 
   <div class="search-field mt-5 pt-3">
-      <input type="text" id="search" placeholder="Search...">  
-      <button type="submit">Search</button>
+      <input type="text" id="search" placeholder="Search by Name..." #search>  
+      <button type="submit" (click)="searchFilter(search.value)">Search</button>
   </div>
 
   <div class="row filters">
     <div class="col-md-2 mt-2 pt-3 first-filter">
-    <button class="dropbtn1">Date Range</button>
-    <div class="dropdown-content1">
-      <button style="border:none" (click)="filterRequestDate('sevenDays')">Last 7 days</button><br>
-      <button style="border:none" (click)="filterRequestDate('thirtyDays')">Last 30 days</button><br>
-      <button style="border:none" (click)="filterRequestDate('sixtyDays')">Last 60 days</button><br>
-      <button style="border:none" (click)="filterRequestDate('ninetyDays')">Last 90 days</button><br>
+    <button *ngIf="!date_filter" class="dropbtn1">Date Range</button>
+    <div *ngIf="!date_filter" class="dropdown-content1">
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestDate('sevenDays')">Last 7 days</button>
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestDate('thirtyDays')">Last 30 days</button>
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestDate('sixtyDays')">Last 60 days</button>
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestDate('ninetyDays')">Last 90 days</button>
     </div>
   </div>
   <div class="col-md-2 mt-2 pt-3 second-filter">
-    <button class="dropbtn2 ms-5">Type</button>
-    <div class="dropdown-content2">
-     <button style="border:none" (click)="filterRequestType('income')">Income</button><br>
-     <button style="border:none" (click)="filterRequestType('expense')">Expense</button><br>
+    <button *ngIf="!type_filter" class="dropbtn2 ms-5">Type</button>
+    <div *ngIf="!type_filter" class="dropdown-content2">
+     <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestType('income')">Income</button>
+     <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestType('expense')">Expense</button>
     </div>
   </div>
   <div class="col-md-2 mt-2 pt-3 third-filter">
-    <button class="dropbtn3 ms-5">Reoccuring</button>
-    <div class="dropdown-content3">
-      <button style="border:none" (click)="filterRequestReoccuring('one-time')">One time</button><br>
-      <button style="border:none" (click)="filterRequestReoccuring('weekly')">Weekly</button><br>
-      <button style="border:none" (click)="filterRequestReoccuring('monthly')"> Monthly</button><br>
-      <button style="border:none" (click)="filterRequestReoccuring('yearly')">Yearly</button><br>
+    <button *ngIf="!reoccuring_filter" class="dropbtn3 ms-5">Reoccuring</button>
+    <div *ngIf="!reoccuring_filter" class="dropdown-content3">
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestReoccuring('one-time')">One time</button>
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestReoccuring('weekly')">Weekly</button>
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestReoccuring('monthly')"> Monthly</button>
+      <button class="filter-button" style="border:none;cursor:pointer;" (click)="filterRequestReoccuring('yearly')">Yearly</button>
     </div>
   </div>
   </div>
@@ -98,7 +106,7 @@
           <th scope="col">Reoccuring</th>
         </tr>
       </thead>
-      <tbody *ngIf="!filter_on">
+      <!-- Without pagination <tbody *ngIf="!filter_on">
         <tr *ngFor="let data of allData.reverse(); index as i">
           <td>{{data.description}}</td>
           <td>{{data.amount}}</td>
@@ -108,7 +116,18 @@
           <td><button style="border: none;" (click)="onEditButton(i)">Edit</button></td>
           <td><button style="border: none;" (click)="onDeleteButton(i)">Delete</button></td>
         </tr>
-        </tbody>
+        </tbody> -->
+        <tbody *ngIf="!filter_on">
+          <tr *ngFor="let data of page_content; index as i">
+            <td>{{data.description}}</td>
+            <td>{{data.amount}}</td>
+            <td>{{data.date}}</td>
+            <td>{{data.type}}</td>
+            <td class="col-2">{{data.reoccuring}}</td>
+            <td><button style="border: none;" (click)="onEditButton(i)">Edit</button></td>
+            <td><button style="border: none;" (click)="onDeleteButton(i)">Delete</button></td>
+          </tr>
+          </tbody>
         <tbody *ngIf="filter_on">
           <tr *ngFor="let data of filteredList.reverse(); index as i">
             <td>{{data.description}}</td>
@@ -119,11 +138,16 @@
           </tr>
           </tbody>
         </table>
+        <div *ngIf="!filter_on" class="pagination">
+          <button (click)="changePage(current_page - 1)" [disabled]="current_page === 0">Previous</button>
+          <span>Page {{ current_page+1 }} of {{ total_pages }}</span>
+          <button (click)="changePage(current_page + 1)" [disabled]="current_page === total_pages-1">Next</button>
+        </div>
   </div>
 
-  <div class="mt-2 pt-2" style="padding-left: 39.5vw;">
+  <div class="mt-2 pt-2" style="padding-left: 44vw;">
     <button *ngIf="!filter_on" class="add-btn" (click)="onAddClick()">Add</button>
-    <button *ngIf="filter_on" style="border:none;" (click)="filterClose()">Reset</button>
+    <button *ngIf="filter_on" style="border:none; background-color: rgb(241, 7, 7); color:rgb(233, 224, 224)" (click)="filterClose()">Reset</button>
   </div>
 
 </div>

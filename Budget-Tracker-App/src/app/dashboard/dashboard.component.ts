@@ -22,12 +22,21 @@ export class DashboardComponent {
   filter_totalExpense: number;
   addForm: FormGroup;
   editForm: FormGroup;
+  date_filter:boolean=false;type_filter:boolean=false;reoccuring_filter:boolean=false;
   data:Data;
   editValue:Data;
   filteredList:Data[];
   editIndex:number;
   allData:Data[]=[];
-  
+
+  /*The 4 properties below are going to be used for pagination feature*/
+  paginated_data:Data[][]=[];
+  current_page: number =0;
+  items_per_page:number = 4;
+  total_pages: number;
+  total_items:number 
+  page_content:Data[];
+
   constructor(private authService:AuthService,private dataService:DataService){}
 
   ngOnInit(){
@@ -38,10 +47,13 @@ export class DashboardComponent {
       type: new FormControl(null,Validators.required),
       reoccuring: new FormControl(null,Validators.required)
     });//Form to get the new data
-
+    this.total_items=this.getTotalItems();
+    console.log('Total items::::'+this.total_items);
   this.updateSummary();  
   /*To update the view after adding, editing or deleting data. In this case to get all the data
   and show it in the view on initialization*/
+  this.paginateAllData();
+  this.currentPageContent();//Displays content at page 1 onInit
   }
 
   logout(){
@@ -82,6 +94,8 @@ export class DashboardComponent {
     };//To read all the data in the form and assign it to data property
    this.dataService.addData(this.data); //Adds data and stores it
    this.updateSummary(); //Updates the view with newly added data along with the summary
+   this.paginateAllData();
+   this.currentPageContent();
    console.log('Alldata');
    console.log(this.allData)//Checking if data are correctly stored and retrieved
    this.addForm.reset(); //Resets form by clearing the formControl values after adding data.
@@ -91,8 +105,9 @@ export class DashboardComponent {
   }
 
 //On clicking Edit button
-  onEditButton(index:number){
+  onEditButton(indx:number){
     this.edit_mode=true;
+    let index = this.find_index(indx);
     let i = this.allData.length-1-index;
     this.editIndex=index;
     this.editValue = {description:this.allData[i].description, amount:this.allData[i].amount, date:this.allData[i].date, type:this.allData[i].type, reoccuring : this.allData[i].reoccuring
@@ -106,13 +121,17 @@ export class DashboardComponent {
     this.dataService.editData(this.editIndex,this.editValue);
     this.edit_mode=false;
     this.updateSummary();
+    this.paginateAllData();
+    this.currentPageContent();
   }
 
   //To delete data
-  onDeleteButton(index:number){
-
+  onDeleteButton(indx:number){
+    let index=this.find_index(indx)
     this.dataService.deleteData(index);
     this.updateSummary();
+    this.paginateAllData();
+    this.currentPageContent();
   }
 
   //Logic to update the view after adding, editing or deleting data
@@ -154,9 +173,21 @@ export class DashboardComponent {
    
   }
 
+  searchFilter(search:string){
+    if(!search){
+      return;
+    }
+    this.filter_on = true; //Set filter_on to true to change the view to display filtered content
+    this.date_filter=true;
+    this.reoccuring_filter=true;
+    this.type_filter=true;
+    this.filteredList = this.allData.filter(data=>data?.description.toLowerCase().includes(search.toLowerCase()));
+    this.updateFilter();
+  }
+
   //To filter based on reoccuring
   filterRequestReoccuring(filterOption:string){
-
+    this.reoccuring_filter=true;
     //If filter hasn't been used yet then filter content among all the data
     if(this.filter_on == false){ 
 
@@ -175,7 +206,7 @@ export class DashboardComponent {
 
   //To filter based on type
   filterRequestType(filterOption:string){
-
+    this.type_filter=true;
     if(this.filter_on == false){
 
       this.filter_on=true;
@@ -193,7 +224,7 @@ export class DashboardComponent {
 
   //To filter based on date range
   filterRequestDate(filterOption:string){
-
+    this.date_filter=true;
     var filterdate=new Date();
     var todaydate = new Date();
     todaydate.setDate(todaydate.getDate()); //Get today's date
@@ -260,5 +291,79 @@ export class DashboardComponent {
   //To change the view to default view from filtered view after 'Reset' button is clicked
   filterClose(){
     this.filter_on=false;
+    this.date_filter=false;
+    this.type_filter=false;
+    this.reoccuring_filter=false;
+  }
+
+  /*Methods for pagination*/
+
+  getTotalItems(){
+    return this.getAllData().length;
+  }
+  //To get total pages
+  getTotalPages(){
+    this.total_items=this.getTotalItems();
+    return Math.ceil(this.total_items/this.items_per_page);
+  }
+
+  //To change the page
+  changePage(page:number){
+    if(page>=0 && page<=this.total_pages-1){
+      this.current_page = page;
+    }
+    this.currentPageContent();
+  }
+
+  paginateAllData(){
+    this.allData = this.getAllData();
+    this.total_pages=this.getTotalPages();
+
+    this.total_items=this.getTotalItems();
+    var someIndex=this.allData.length;
+    var j:number=0;
+    console.log('Inside paginateAllData');
+    for(let i = 0;i<this.total_pages;i++){
+      this.paginated_data[i]=[];
+      console.log('Inside i loop');
+      if(i==(this.total_pages-1)){ //To assign total number of items in the final page according to the number of items
+         j = this.items_per_page-(this.items_per_page*this.total_pages-this.total_items);
+         console.log(j);
+      }
+      else{
+        j = this.items_per_page;
+        console.log(j);
+      }
+      for(let k=0;k<j;k++){
+        someIndex--;
+        this.paginated_data[i][k]= this.allData[someIndex];
+      }
+      
+    }
+    
+    this.total_pages=this.getTotalPages();
+    console.log(this.paginated_data);//Checking 
+  }
+
+  currentPageContent(){
+    this.page_content=this.paginated_data[this.current_page];//Stored contents on each page as array in paginated_data which is then assigned to page_content
+  }
+
+  find_index(index:number){
+    var k = 0;
+    var j;
+    for(let i = 0;i<this.current_page+1;i++){
+      if(i===this.current_page){
+        j = index;
+      }
+      else{
+        j = this.items_per_page;
+      }
+      for(let p=0;p<j;p++){
+        k++;
+      }
+    }
+    return k;
   }
 }
+
