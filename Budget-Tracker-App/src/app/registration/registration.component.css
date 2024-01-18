@@ -1,5 +1,9 @@
+
+
+
 .fworm{
-    background-color: aquamarine;
+    background-color: rgba(77, 70, 70, 0.26);
+    border-radius: 2%;
 }
 
 input.ng-touched.ng-invalid{

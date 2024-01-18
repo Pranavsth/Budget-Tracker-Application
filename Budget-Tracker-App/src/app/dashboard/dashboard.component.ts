@@ -36,6 +36,7 @@ export class DashboardComponent {
   total_pages: number;
   total_items:number 
   page_content:Data[];
+  user:string=this.authService.username;
 
   constructor(private authService:AuthService,private dataService:DataService){}
 
@@ -131,7 +132,12 @@ export class DashboardComponent {
     this.dataService.deleteData(index);
     this.updateSummary();
     this.paginateAllData();
+    if(this.current_page>0 && this.page_content.length==1){
+      this.changePage(this.current_page-1);
+    }
+    else{
     this.currentPageContent();
+    }
   }
 
   //Logic to update the view after adding, editing or deleting data
@@ -304,6 +310,9 @@ export class DashboardComponent {
   //To get total pages
   getTotalPages(){
     this.total_items=this.getTotalItems();
+    if(this.total_items==0){
+      return 1;
+    }
     return Math.ceil(this.total_items/this.items_per_page);
   }
 
@@ -318,7 +327,6 @@ export class DashboardComponent {
   paginateAllData(){
     this.allData = this.getAllData();
     this.total_pages=this.getTotalPages();
-
     this.total_items=this.getTotalItems();
     var someIndex=this.allData.length;
     var j:number=0;
@@ -346,8 +354,9 @@ export class DashboardComponent {
   }
 
   currentPageContent(){
-    this.page_content=this.paginated_data[this.current_page];//Stored contents on each page as array in paginated_data which is then assigned to page_content
-  }
+    this.page_content=this.paginated_data[this.current_page]; //Stored contents on each page as array in paginated_data which is then assigned to page_content
+
+    }
 
   find_index(index:number){
     var k = 0;

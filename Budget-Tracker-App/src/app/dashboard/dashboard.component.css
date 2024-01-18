@@ -90,11 +90,16 @@ div.search-field::after{
   display: block;
 }
 
+.filter-button{
+ background-color: white;
+ border:none;
+}
+
 .filter-button:hover{
 color:rgb(153, 120, 120);
 }
 
-  
+
 
 .dropdown-content1 button:hover {background-color: #f1f1f1;
   color:rgb(153, 120, 120);}
@@ -163,7 +168,7 @@ color:rgb(153, 120, 120);
 }
 
 .add-btn{
-  background-color:  #2196F3;
+  background-color: rgb(51, 148, 51);
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -174,7 +179,7 @@ color:rgb(153, 120, 120);
 }
 
 .add-btn:hover{
-  background-color: #0b7dda;
+  background-color: rgb(85, 165, 85);
 }
 
 .form-view{
@@ -220,4 +225,26 @@ color:rgb(153, 120, 120);
 
 .form-view select.ng-touched.ng-valid{
   border: green 1px solid;
+}
+
+.edit-btn{
+  border: none;
+  background-color: rgb(240, 231, 61);
+  color:rgba(0, 0, 0, 0.76);
+  text-align: center;
+}
+
+.edit-btn:hover{
+  background-color: rgb(233, 228, 133);
+}
+
+.del-btn{
+  border: none;
+  background-color: rgb(255, 80, 80);
+  color:rgba(0, 0, 0, 0.76);
+  text-align: center;
+}
+
+.del-btn:hover{
+  background-color: rgb(233, 133, 133);
 }

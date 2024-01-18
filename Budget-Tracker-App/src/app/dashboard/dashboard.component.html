@@ -1,37 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand">Budget Tracker Application</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a ngbDropdown-toggle class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-        <li class="nav-item">
-          <button style="border: none;" (click)="logout()">Logout</button>
-        </li>
-        
-      </div>
+      <div style="padding-left:150px; font-weight: bold;">
+        DASHBOARD
+       </div>
+       <span style="padding-left:200px;">Welcome User, {{user}}</span>
+       <span style="padding-left:350px;"><button style="border:none;" (click)="logout()">Logout</button></span>
     </div>
   </nav>
 
@@ -124,8 +101,8 @@
             <td>{{data.date}}</td>
             <td>{{data.type}}</td>
             <td class="col-2">{{data.reoccuring}}</td>
-            <td><button style="border: none;" (click)="onEditButton(i)">Edit</button></td>
-            <td><button style="border: none;" (click)="onDeleteButton(i)">Delete</button></td>
+            <td><span><button class="edit-btn" (click)="onEditButton(i)">Edit</button> </span>
+            <span style="padding-left:25px;"><button class="del-btn"  (click)="onDeleteButton(i)">Delete</button></span></td>
           </tr>
           </tbody>
         <tbody *ngIf="filter_on">
@@ -138,10 +115,10 @@
           </tr>
           </tbody>
         </table>
-        <div *ngIf="!filter_on" class="pagination">
-          <button (click)="changePage(current_page - 1)" [disabled]="current_page === 0">Previous</button>
-          <span>Page {{ current_page+1 }} of {{ total_pages }}</span>
-          <button (click)="changePage(current_page + 1)" [disabled]="current_page === total_pages-1">Next</button>
+        <div *ngIf="!filter_on" class="pagination" style="padding-left:73vw; padding-top:25px;">
+          <button (click)="changePage(current_page - 1)" [disabled]="current_page === 0" style="border:none;   color:rgb(160, 110, 2);">Previous  </button>
+          <span style="padding-left:10px; padding-right:10px;">  Page {{ current_page+1 }} of {{ total_pages }}  </span>
+          <button (click)="changePage(current_page + 1)" [disabled]="current_page === total_pages-1" style="border:none; color:rgb(160, 110, 2);">  Next</button>
         </div>
   </div>
 

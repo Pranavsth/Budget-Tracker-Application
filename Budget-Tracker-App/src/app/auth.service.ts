@@ -20,10 +20,24 @@ export class AuthService {
   }
 
   //To register a user with their username and password, and store it.
-  register(username:string,password:string):void{
+  register(username:string,password:string,rePassword:string):boolean{
     const user={ username,password };
     const userKey = this.getUserKey(username);
-    localStorage.setItem(userKey,JSON.stringify(user));
+    const storedUser = localStorage.getItem(userKey)
+    if(password===rePassword){
+    if(!storedUser){
+      localStorage.setItem(userKey,JSON.stringify(user))
+      return true;
+    }
+    else{
+      alert('Username already exists');
+      return false;
+    }
+  }
+  else{
+    alert('Passwords do not match!! Please check.')
+    return false;
+  }
   }
 
   //To login a user who has entered valid credentials and has their credentials stored in the storage.

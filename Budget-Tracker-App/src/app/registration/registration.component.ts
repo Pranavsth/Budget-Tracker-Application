@@ -20,15 +20,18 @@ export class RegistrationComponent {
       email: new FormControl(null,[Validators.required,Validators.email]),
       username: new FormControl(null,Validators.required),
       password: new FormControl(null,Validators.required),
-      dob: new FormControl(null,Validators.required),
-      address: new FormControl(null),
-      city: new FormControl(null)
+      rePassword:new FormControl(null,Validators.required)
     });
   }
 
   onRegister(){
-    console.log(this.regForm);
-    this.authService.register(this.regForm.value.username,this.regForm.value.password)
-    this.router.navigate(['/login']);
+    let isRegistered:boolean;
+    console.log(this.regForm);//Checking
+    isRegistered = this.authService.register(this.regForm.value.username,this.regForm.value.password,this.regForm.value.rePassword);//returns true if valid registration
+    console.log(isRegistered);
+    if(isRegistered){ //On valid registration
+      alert('Registration Successful');
+      this.router.navigate(['/login']);
+    }
   }
 }
