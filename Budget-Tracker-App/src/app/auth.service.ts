@@ -6,10 +6,13 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
+  /*This service is meant mainly for authentication and works with data service for authorization.
+    Also, username and password are the main properties for validation and authentication.*/
+
   public username:string; //Made public to use across other services or components, if required, after user logs in.
   constructor(private router:Router) { }
 
-  //Assigns a unique userKey to the user to store their credentials
+  //Assigns a unique userKey to the user to store their credentials in the localStorage.
    private getUserKey(username:string):string{
     return `user_${username}`;
   }
@@ -20,12 +23,12 @@ export class AuthService {
   }
 
   //To register a user with their username and password, and store it.
-  register(username:string,password:string,rePassword:string):boolean{
+  register(username:string,password:string,rePassword:string):boolean{ //rePassword parameter here is re-entered password.
     const user={ username,password };
     const userKey = this.getUserKey(username);
-    const storedUser = localStorage.getItem(userKey)
-    if(password===rePassword){
-    if(!storedUser){
+    const storedUser = localStorage.getItem(userKey) //returns the user credentials matching the userKey.
+    if(password===rePassword && password.length>=8){
+    if(!storedUser){ //if username doesn't match with any of the existing usernames follow this logic.
       localStorage.setItem(userKey,JSON.stringify(user))
       return true;
     }
@@ -35,8 +38,14 @@ export class AuthService {
     }
   }
   else{
+    if(password.length<8){
+      alert('Password length must be atleast 8');
+      return false;
+    }
+    else{
     alert('Passwords do not match!! Please check.')
     return false;
+  }
   }
   }
 
@@ -45,9 +54,9 @@ export class AuthService {
     const userKey = this.getUserKey(username);
     const storedUser = localStorage.getItem(userKey);
 
-    if(storedUser){
+    if(storedUser){ //if username matches with existing user credential.
       const user = JSON.parse(storedUser);
-      if (user.username === username && user.password === password){
+      if (user.username === username && user.password === password){ //if user credentials are entered correctly, then follow this.
         localStorage.setItem(userKey,JSON.stringify(user));
         return true;
       }
@@ -55,7 +64,7 @@ export class AuthService {
     return false;
   }
 
-  logout(){
+  logout(){ 
 
     this.router.navigate(['/login'])
   }

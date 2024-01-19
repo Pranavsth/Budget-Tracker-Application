@@ -83,17 +83,7 @@
           <th scope="col">Reoccuring</th>
         </tr>
       </thead>
-      <!-- Without pagination <tbody *ngIf="!filter_on">
-        <tr *ngFor="let data of allData.reverse(); index as i">
-          <td>{{data.description}}</td>
-          <td>{{data.amount}}</td>
-          <td>{{data.date}}</td>
-          <td>{{data.type}}</td>
-          <td class="col-2">{{data.reoccuring}}</td>
-          <td><button style="border: none;" (click)="onEditButton(i)">Edit</button></td>
-          <td><button style="border: none;" (click)="onDeleteButton(i)">Delete</button></td>
-        </tr>
-        </tbody> -->
+
         <tbody *ngIf="!filter_on">
           <tr *ngFor="let data of page_content; index as i">
             <td>{{data.description}}</td>

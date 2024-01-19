@@ -324,6 +324,7 @@ export class DashboardComponent {
     this.currentPageContent();
   }
 
+  //stores all the data, which is in 1d array, in 2d array which is going to be used to display items in each page.
   paginateAllData(){
     this.allData = this.getAllData();
     this.total_pages=this.getTotalPages();
@@ -332,7 +333,7 @@ export class DashboardComponent {
     var j:number=0;
     console.log('Inside paginateAllData');
     for(let i = 0;i<this.total_pages;i++){
-      this.paginated_data[i]=[];
+      this.paginated_data[i]=[]; //For initialization of 2d array
       console.log('Inside i loop');
       if(i==(this.total_pages-1)){ //To assign total number of items in the final page according to the number of items
          j = this.items_per_page-(this.items_per_page*this.total_pages-this.total_items);
@@ -344,7 +345,7 @@ export class DashboardComponent {
       }
       for(let k=0;k<j;k++){
         someIndex--;
-        this.paginated_data[i][k]= this.allData[someIndex];
+        this.paginated_data[i][k]= this.allData[someIndex]; //store data in each page of paginated_data array
       }
       
     }
@@ -358,6 +359,9 @@ export class DashboardComponent {
 
     }
 
+  /*Data are paginated in view but stored in 1d array in local storage. Therefore, to
+    edit and delete data which are paginated and to show that effect in data stored
+    in localStorage this function helps to calculate corresponding index of array in 1d.*/
   find_index(index:number){
     var k = 0;
     var j;
